@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -60,5 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
 
 		return "fail";
 	}
+	
+
 
 }
