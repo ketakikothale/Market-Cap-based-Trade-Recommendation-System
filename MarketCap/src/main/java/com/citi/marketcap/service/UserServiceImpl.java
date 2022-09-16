@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.citi.marketcap.dto.User;
 import com.citi.marketcap.repository.UserRepository;
-import com.citi.marketcap.repository.UserRepositoryImpl;
 
 //singleton
 @Service("userService")
@@ -31,4 +30,6 @@ public class UserServiceImpl implements UserService {
 	public String loggedIn(User user) {
 		return userRepository.loggedIn(user);
 	}
+	
+
 }

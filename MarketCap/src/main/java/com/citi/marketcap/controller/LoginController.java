@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.citi.marketcap.dto.User;
 import com.citi.marketcap.service.UserService;
-import com.citi.marketcap.service.UserServiceImpl;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage() {
 		return "login";
@@ -27,9 +26,9 @@ public class LoginController {
 		User user = new User(1, userName, password);
 		String isLoggedIn = userService.loggedIn(user);
 		if (isLoggedIn.equals("success"))
-			return "welcome";
-		
+			return "redirect:/welcome";
+
 		modelMap.put("error", isLoggedIn);
-			return "login";
+		return "login";
 	}
 }
