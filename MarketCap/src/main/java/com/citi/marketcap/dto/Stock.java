@@ -1,7 +1,7 @@
 package com.citi.marketcap.dto;
 
 import java.math.BigDecimal;
-
+import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class Stock {
 	
 //	double priceAvg50;
 //	double priceAvg200;
-//	double volume;
+	double volume;
 //	double avgVolume;
 //	String exchange;
 //	double open;
@@ -37,4 +37,5 @@ public class Stock {
 //	String earningsAnnouncement;
 //	long sharesOutstanding;
 //	long timestamp;
+	boolean isActivelyTrading;
 }
