@@ -1,5 +1,6 @@
 package com.citi.marketcap.controller;
 
+import java.util.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,10 +19,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.citi.marketcap.dto.Stock;
+import com.citi.marketcap.dto.StockComparator;
 import com.citi.marketcap.service.StockService;
 
 @Controller
-public class StockController {
+public class StockController{
 
 	@Autowired
 	StockService stockService;
@@ -37,6 +39,8 @@ public class StockController {
 
 		//list to store stock to recommend
 		ArrayList<Stock> al = new ArrayList<>();
+		ArrayList<Stock> sort1 = new ArrayList<>();
+		ArrayList<Stock> sort2 = new ArrayList<>();
 		ArrayList<String> tickerList = new ArrayList<>();
 
 		String APIkey = "6d9bce770b5f2123cc374e05f79ec341";// "f6baf1e3ee826845e485e907450fddbe";
@@ -151,7 +155,8 @@ public class StockController {
 				
 			
 				
-				Stock stock =new Stock(countryData.get("symbol").toString(), countryData.get("companyName").toString(), Double.parseDouble(countryData.get("price").toString()),Double.parseDouble(countryData.get("beta").toString()),Double.parseDouble(countryData.get("marketCap").toString()));
+				Stock stock =new Stock(countryData.get("symbol").toString(), countryData.get("companyName").toString(), Double.parseDouble(countryData.get("price").toString()),Double.parseDouble(countryData.get("beta").toString()),Double.parseDouble(countryData.get("marketCap").toString()),Double.parseDouble(countryData.get("volume").toString()),Boolean.parseBoolean(countryData.get("isActivelyTrading").toString()));
+//				Stock stock =new Stock(countryData.get("symbol").toString(),Double.parseDouble(countryData.get("beta").toString()),Double.parseDouble(countryData.get("marketCap").toString()),Double.parseDouble(countryData.get("volume").toString()));
 
 //				Stock stock = stockService.stockDetails(symbol);
 //
@@ -167,7 +172,52 @@ public class StockController {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println(informationString);
-		modelMap.put("response", al.toString());
+		
+		//sort al in descending order of volume
+		Collections.sort(al, new StockComparator());
+		
+		//get stocks which are actively trading
+		for(int i=0;i<al.size();i++) {
+			if(al.get(i).isActivelyTrading()) {
+				sort1.add(al.get(i));
+			}
+		}
+		
+		//get stocks with beta value approx equal to 1.0
+		for(int i=0;i<sort1.size();i++) {
+			if((sort1.get(i).getBeta() >= 0.9) && (sort1.get(i).getBeta() <= 1.1)) {
+				sort2.add(al.get(i));
+			}
+		}
+		
+		ArrayList<Stock> topFive = new ArrayList<>();
+		if(sort2.size() >= 5) {
+			//recommend top five stocks only
+			for(int i=0;i<5;i++) {
+				topFive.add(sort2.get(i));
+			}
+		}
+		else {
+			//that means less than 5 stocks are available
+			
+			if(sort1.size() >= 5) {
+				//exclude beta value parameter
+				for(int i=0;i<5;i++) {
+					topFive.add(sort1.get(i));
+				}
+			}
+			else {
+				//exclude actively trading parameter
+				for(int i=0;i<5;i++) {
+					topFive.add(al.get(i));
+				}
+			}
+		}
+		
+//		for(int i=0;i<topFive.size();i++) {
+//			System.out.println(topFive.get(i).getSymbol() + " " + topFive.get(i).getBeta() + " " + topFive.get(i).getVolume());
+//		}
+		
+		modelMap.put("response", topFive.toString());
 	}
 }
