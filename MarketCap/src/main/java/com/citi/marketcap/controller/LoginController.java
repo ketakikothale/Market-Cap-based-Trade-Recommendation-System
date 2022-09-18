@@ -11,22 +11,32 @@ import com.citi.marketcap.dto.User;
 import com.citi.marketcap.service.UserService;
 
 @Controller
-public class LoginController {
+public class LoginController
+{
+
+	public static User user = null;
 
 	@Autowired
 	UserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
+	public String loginPage()
+	{
 		return "login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String welcomePage(ModelMap modelMap, @RequestParam String userName, @RequestParam String password) {
-		User user = new User(1, userName, password);
+	public String welcomePage(ModelMap modelMap, @RequestParam String userName, @RequestParam String password)
+	{
+		user = new User(0, userName, password);
 		String isLoggedIn = userService.loggedIn(user);
-		if (isLoggedIn.equals("success"))
+
+		// check if string is an integer
+		if (isLoggedIn.matches("\\d+"))
+		{
+			user.setUserId(Integer.valueOf(isLoggedIn));
 			return "redirect:/welcome";
+		}
 
 		modelMap.put("error", isLoggedIn);
 		return "login";

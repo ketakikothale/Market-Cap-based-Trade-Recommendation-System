@@ -1,40 +1,33 @@
 package com.citi.marketcap.repository;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.sql.DataSource;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.citi.marketcap.controller.LoginController;
 import com.citi.marketcap.dto.Stock;
 import com.citi.marketcap.dto.User;
-import com.google.gson.Gson;
-
-import yahoofinance.*;
-import yahoofinance.quotes.stock.StockQuote;
 
 @Repository
-public class StockRepositoryImpl implements StockRepository {
+public class StockRepositoryImpl implements StockRepository
+{
 
 	@Autowired
 	DataSource dataSource;
 
 	@Override
-	public String marketCap(User user) {
+	public String marketCap(User user)
+	{
 		return "Hi all";
 	}
 
 	@Override
-	public Stock stockDetails(String symbol) {
+	public Stock stockDetails(String symbol)
+	{
 		Stock s1 = null;
 //		try {
 //			yahoofinance.Stock stk = YahooFinance.get(symbol);
@@ -91,5 +84,35 @@ public class StockRepositoryImpl implements StockRepository {
 ////		s1=gson.fromJson(String.valueOf(informationString), Stock.class);
 //		
 //		return null;
+	}
+
+	@Override
+	public String saveStock(Stock stock)
+	{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try
+		{
+			connection = dataSource.getConnection();
+			String query = "insert into user_saved_stock values(?,?,?,?)";
+			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setInt(1, LoginController.user.getUserId());
+			preparedStatement.setString(2, stock.getSymbol());
+			preparedStatement.setDouble(3, stock.getPrice());
+			preparedStatement.setInt(4, 1);
+
+			int res = preparedStatement.executeUpdate();
+
+			if (res > 0) return "success";
+			else
+				return "failure";
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		return "failure";
 	}
 }

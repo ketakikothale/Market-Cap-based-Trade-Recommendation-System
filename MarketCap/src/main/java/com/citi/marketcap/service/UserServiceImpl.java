@@ -8,28 +8,14 @@ import com.citi.marketcap.repository.UserRepository;
 
 //singleton
 @Service("userService")
-public class UserServiceImpl implements UserService {
-
-//	private UserServiceImpl() {
-//	}
-//
-//	private static UserService userService;// only 1 reference because of static
-//
-//	public static UserService getInstance() {
-//		if (userService == null) {
-//			userService = new UserServiceImpl();
-//			return userService;
-//		}
-//		return userService;
-//	}
-
+public class UserServiceImpl implements UserService
+{
 	@Autowired
-	private UserRepository userRepository;//=UserRepositoryImpl.getInstance();;
+	private UserRepository userRepository;
 
 	@Override
-	public String loggedIn(User user) {
+	public String loggedIn(User user)
+	{
 		return userRepository.loggedIn(user);
 	}
-	
-
 }

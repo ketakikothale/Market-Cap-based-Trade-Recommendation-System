@@ -1,7 +1,5 @@
 package com.citi.marketcap.dto;
 
-import java.math.BigDecimal;
-import java.util.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,21 +8,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 
-public class Stock {
+public class Stock
+{
 	String symbol;
 //	double change;
 	String name;
 	double price;
 	double beta;
 	double marketCap;
-	
+
 //	double changesPercentage;
 //	double change;
 //	double dayLow;
 //	double dayHigh;
 //	double yearHigh;
 //	double yearLow;
-	
+
 //	double priceAvg50;
 //	double priceAvg200;
 	double volume;

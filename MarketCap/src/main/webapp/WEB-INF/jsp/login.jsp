@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div class = "header">
-	<h2>${error}</h2>
+		<h2>${error}</h2>
 	</div>
 	<div class = "login">
 	<form method ="post">
@@ -13,7 +13,7 @@
 		<br><br>
 		<input type="password" name="password" placeholder="Password"/>
 		<br><br>
-		<button id = "submit-btn">Submit</button>
+		<button>Submit</button>
 	</form>
 	</div>
 </body>
