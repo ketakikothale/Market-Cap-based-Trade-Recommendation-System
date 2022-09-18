@@ -1,0 +1,7 @@
+create table user_saved_stock(
+    userId int(11),
+    symbol varchar(10),
+    stockprice decimal(10,2),
+    stockquantity int(5),
+    FOREIGN KEY(userId) REFERENCES user(userId)
+    );
