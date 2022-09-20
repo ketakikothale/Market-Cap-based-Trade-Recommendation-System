@@ -48,11 +48,12 @@
 			<c:if test="${theCount.count le 1}">
 				<h2>My Saved Stocks:<h2>
 				
- 				<thead >
+ 				<thead>
 				<tr>
 					<th>Sr.No.</th>
 					<th>Symbol</th>
 					<th>Price</th>
+					<th>Unsave Stock</th>
 				</tr>
 			</thead>
 			</c:if>
@@ -60,6 +61,7 @@
 					<td>${theCount.count}</td>
 					<td>${stk.symbol}</td>
 					<td>${stk.price}</td>
+					<td><button name="unsave" value=${stk.symbol}>Unsave</button></td>
 				<tr>
 			</c:forEach>
 		</table>
