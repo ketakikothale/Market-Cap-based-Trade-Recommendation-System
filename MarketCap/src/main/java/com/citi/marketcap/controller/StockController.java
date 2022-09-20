@@ -276,16 +276,17 @@ public class StockController
 
 		for (int i = 0; i < topFive.size(); i++)
 			if (topFive.get(i).getSymbol().compareTo(str) == 0) status = stockService.saveStock(topFive.get(i));
-
-		System.out.println(str);
-		System.out.println(status);
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "show" })
 	public void show(ModelMap modelMap, @RequestParam(value = "show") String str) {
 		
-		
 		ArrayList<Stock> show = stockService.getSaved();
 		modelMap.put("showall", show);
+	}
+	
+	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "unsave" })
+	public void unsave(ModelMap modelMap, @RequestParam(value = "unsave") String str) {
+		stockService.unsaveStock(str);
 	}
 }
