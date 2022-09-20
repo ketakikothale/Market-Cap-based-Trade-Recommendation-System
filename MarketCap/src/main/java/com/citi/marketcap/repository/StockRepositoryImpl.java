@@ -155,4 +155,30 @@ public class StockRepositoryImpl implements StockRepository
 		}
 		return null;
 	}
+
+	@Override
+	public void unsaveStock(String stockSymbol) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try
+		{
+			connection = dataSource.getConnection();
+			String query = "delete from user_saved_stock where (userId=? and symbol=?)";
+			preparedStatement = connection.prepareStatement(query);
+
+			preparedStatement.setInt(1, LoginController.user.getUserId());
+			preparedStatement.setString(2, stockSymbol);
+			
+			int res = preparedStatement.executeUpdate();
+
+			if (res > 0) 
+				System.out.println("deleted");
+			else
+				System.out.println("not deleted");
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
