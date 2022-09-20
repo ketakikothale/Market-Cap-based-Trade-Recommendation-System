@@ -1,5 +1,7 @@
 package com.citi.marketcap.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +33,11 @@ public class StockServiceImpl implements StockService
 	public String saveStock(Stock stock)
 	{
 		return stockRepository.saveStock(stock);
+	}
+	
+	@Override
+	public ArrayList<Stock> getSaved()
+	{
+		return stockRepository.getSaved();
 	}
 }

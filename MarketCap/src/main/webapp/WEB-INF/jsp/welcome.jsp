@@ -8,9 +8,9 @@
 		<button name="type" value="small">Small Cap</button>
 		<button name="type" value="mid">Mid Cap</button>
 		<button name="type" value="large">Large Cap</button>
+		<button name="show" value="show">Show</button>
 		
 		<br><br>
-		
 		
 		
 		<table border="1">
@@ -38,6 +38,28 @@
 					<td>${stk.beta}</td>
 					<td>${stk.marketCap}</td>
 					<td><button name="ticker" value=${stk.symbol}>Save ${stk.name}</button></td>
+				<tr>
+			</c:forEach>
+		</table>
+		
+		
+		<table border="1">
+			<c:forEach var="stk" items="${showall}" varStatus="theCount">
+			<c:if test="${theCount.count le 1}">
+				<h2>My Saved Stocks:<h2>
+				
+ 				<thead >
+				<tr>
+					<th>Sr.No.</th>
+					<th>Symbol</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			</c:if>
+				<tr>
+					<td>${theCount.count}</td>
+					<td>${stk.symbol}</td>
+					<td>${stk.price}</td>
 				<tr>
 			</c:forEach>
 		</table>

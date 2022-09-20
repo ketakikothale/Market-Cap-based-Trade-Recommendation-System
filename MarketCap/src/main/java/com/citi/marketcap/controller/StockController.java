@@ -281,10 +281,11 @@ public class StockController
 		System.out.println(status);
 	}
 
-//	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "show" })
-//	public void show(ModelMap modelMap, @RequestParam(value = "show") String str) {
-//		modelMap.put("response", topFive);
-//
-//		
-//	}
+	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "show" })
+	public void show(ModelMap modelMap, @RequestParam(value = "show") String str) {
+		
+		
+		ArrayList<Stock> show = stockService.getSaved();
+		modelMap.put("showall", show);
+	}
 }

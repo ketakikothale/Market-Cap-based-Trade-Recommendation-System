@@ -1,5 +1,7 @@
 package com.citi.marketcap.service;
 
+import java.util.ArrayList;
+
 import com.citi.marketcap.dto.Stock;
 import com.citi.marketcap.dto.User;
 
@@ -10,4 +12,6 @@ public interface StockService
 	public Stock stockDetails(String symbol);
 
 	public String saveStock(Stock stock);
+	
+	public ArrayList<Stock> getSaved();
 }

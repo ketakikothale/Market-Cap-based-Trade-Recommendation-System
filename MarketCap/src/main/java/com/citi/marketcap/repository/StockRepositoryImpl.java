@@ -2,7 +2,10 @@ package com.citi.marketcap.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,5 +117,42 @@ public class StockRepositoryImpl implements StockRepository
 		}
 
 		return "failure";
+	}
+	
+	@Override
+	public ArrayList<Stock> getSaved()
+	{
+		ArrayList<Stock> list = null;
+		Connection connection = null;
+		ResultSet resultSet = null;
+		String query = "select * from user_saved_stock";
+		boolean flag = false;
+		try {
+			connection = dataSource.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			resultSet = preparedStatement.executeQuery();
+			// list = new ArrayList<>(); // memory?
+			while (resultSet.next()) {
+				Stock s = new Stock();
+				
+				if(LoginController.user.getUserId()==resultSet.getInt(1))
+				{
+					s.setSymbol(resultSet.getString(2));
+					s.setPrice(resultSet.getDouble(3));
+					if (s != null && !flag) { // improve the condition
+						flag = true;
+						list = new ArrayList<>();
+					}
+					list.add(s);
+				}
+			}
+
+			return list;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return null;
 	}
 }
