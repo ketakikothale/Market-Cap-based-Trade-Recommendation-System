@@ -40,4 +40,9 @@ public class StockServiceImpl implements StockService
 	{
 		return stockRepository.getSaved();
 	}
+
+	@Override
+	public void unsaveStock(String stockSymbol) {
+		stockRepository.unsaveStock(stockSymbol);
+	}
 }
