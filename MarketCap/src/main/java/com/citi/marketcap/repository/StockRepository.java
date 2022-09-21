@@ -16,5 +16,5 @@ public interface StockRepository
 	
 	public ArrayList<Stock> getSaved();
 	
-	public void unsaveStock(String stockSymbol);
+	public void unsaveStock(Stock stock);
 }
