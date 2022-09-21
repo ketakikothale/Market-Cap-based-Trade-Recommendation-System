@@ -42,7 +42,7 @@ public class StockServiceImpl implements StockService
 	}
 
 	@Override
-	public void unsaveStock(String stockSymbol) {
-		stockRepository.unsaveStock(stockSymbol);
+	public void unsaveStock(Stock stock) {
+		stockRepository.unsaveStock(stock);
 	}
 }
