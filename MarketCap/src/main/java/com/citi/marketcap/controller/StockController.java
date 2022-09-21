@@ -40,8 +40,6 @@ public class StockController
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "type" })
 	public void display(ModelMap modelMap, @RequestParam(value = "type") String str)
 	{
-		System.out.println(str);
-
 		// list to store stock to recommend
 		ArrayList<Stock> al = new ArrayList<>();
 		ArrayList<Stock> sort1 = new ArrayList<>();
@@ -55,7 +53,6 @@ public class StockController
 		{
 			try
 			{
-
 				// small stocks have market cap between 300 million to 2 billion dollars
 				URL marketCap = new URL(
 						"https://financialmodelingprep.com/api/v3/stock-screener?marketCapLowerThan=159862800000&marketCapMoreThan=23981595000&exchange=NASDAQ&apikey="
@@ -180,29 +177,42 @@ public class StockController
 		try
 		{
 			dataObject = (JSONArray) parse.parse(String.valueOf(informationString));
+			
+			//get current date
+			String m,date;
+			int d,y;
+			String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+			         "Oct", "Nov", "Dec"};
+			
+			GregorianCalendar gcalendar = new GregorianCalendar();
+			d = gcalendar.get(Calendar.DATE);
+			m = months[gcalendar.get(Calendar.MONTH)];
+			y = gcalendar.get(Calendar.YEAR);
+			date = Integer.toString(d) + " " + m + " " + Integer.toString(y);
+			
+			//get current time
+			int h,min,sec;
+			String time;
+			h = gcalendar.get(Calendar.HOUR);
+			min = gcalendar.get(Calendar.MINUTE);
+			sec = gcalendar.get(Calendar.SECOND);
+			time = Integer.toString(h) + ":" + Integer.toString(min) + ":" + Integer.toString(sec);
+			
 			for (int i = 0; i < dataObject.size(); i++)
 			{
 				JSONObject countryData = (JSONObject) dataObject.get(i);
-//				String symbol = String.valueOf(countryData.get("symbol"));
 
-				Stock stock = new Stock(countryData.get("symbol").toString(), countryData.get("companyName").toString(),
+				Stock stock = new Stock(countryData.get("symbol").toString(), 
+						countryData.get("companyName").toString(),
 						Double.parseDouble(countryData.get("price").toString()),
 						Double.parseDouble(countryData.get("beta").toString()),
 						Double.parseDouble(countryData.get("marketCap").toString()),
 						Double.parseDouble(countryData.get("volume").toString()),
-						Boolean.parseBoolean(countryData.get("isActivelyTrading").toString()));
-//				Stock stock =new Stock(countryData.get("symbol").toString(),Double.parseDouble(countryData.get("beta").toString()),Double.parseDouble(countryData.get("marketCap").toString()),Double.parseDouble(countryData.get("volume").toString()));
-
-//				Stock stock = stockService.stockDetails(symbol);
-//
-//				if (stock != null) {
+						Boolean.parseBoolean(countryData.get("isActivelyTrading").toString()),
+						date,
+						time);
+				
 				al.add(stock);
-//					tickerList.add(symbol);
-//				}
-
-//				System.out.println(al.toString());
-
-//				System.out.println(symbol);
 			}
 		}
 		catch (ParseException e)
@@ -261,9 +271,6 @@ public class StockController
 			}
 		}
 
-//		for(int i=0;i<topFive.size();i++) {
-//			System.out.println(topFive.get(i).getSymbol() + " " + topFive.get(i).getBeta() + " " + topFive.get(i).getVolume());
-//		}
 		modelMap.put("response", topFive);
 	}
 
@@ -287,6 +294,17 @@ public class StockController
 	
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "unsave" })
 	public void unsave(ModelMap modelMap, @RequestParam(value = "unsave") String str) {
-		stockService.unsaveStock(str);
+		ArrayList<Stock> savedStocks = stockService.getSaved();
+		
+		int index = 0;
+		for(int i=0;i<savedStocks.size();i++) {
+			if(savedStocks.get(i).getSymbol().equals(str)) {
+				index = i;
+				break;
+			}
+		}
+		
+		Stock stockToUnsave = savedStocks.get(index);
+		stockService.unsaveStock(stockToUnsave);
 	}
 }
