@@ -47,20 +47,23 @@
 			<c:forEach var="stk" items="${showall}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
 				<h2>My Saved Stocks:<h2>
-				
- 				<thead>
-				<tr>
-					<th>Sr.No.</th>
-					<th>Symbol</th>
-					<th>Price</th>
-					<th>Unsave Stock</th>
-				</tr>
-			</thead>
+				<thead>
+					<tr>
+						<th>Sr.No.</th>
+						<th>Symbol</th>
+						<th>Price</th>
+						<th>Date</th>
+						<th>Time</th>
+						<th>Unsave Stock</th>
+					</tr>
+				</thead>
 			</c:if>
 				<tr>
 					<td>${theCount.count}</td>
 					<td>${stk.symbol}</td>
 					<td>${stk.price}</td>
+					<td>${stk.date}</td>
+					<td>${stk.time}</td>
 					<td><button name="unsave" value=${stk.symbol}>Unsave</button></td>
 				<tr>
 			</c:forEach>
