@@ -117,7 +117,7 @@
 					<td style="padding:15px">${stk.price}</td>
 					<td style="padding:15px">${stk.date}</td>
 					<td style="padding:15px">${stk.time}</td>
-					<td style="padding:15px"><button name="unsave" value=${stk.symbol}  onclick="remove()">Delete</button></td>
+					<td style="padding:15px"><button name="unsave" value="${stk.symbol} ${stk.time}" onclick="remove()">Delete</button></td>
 				<tr>
 			</c:forEach>
 		</table>
