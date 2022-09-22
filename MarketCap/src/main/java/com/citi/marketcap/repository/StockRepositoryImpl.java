@@ -5,15 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.citi.marketcap.controller.LoginController;
 import com.citi.marketcap.dto.Stock;
-import com.citi.marketcap.dto.User;
 
 @Repository
 public class StockRepositoryImpl implements StockRepository
@@ -21,20 +20,6 @@ public class StockRepositoryImpl implements StockRepository
 
 	@Autowired
 	DataSource dataSource;
-
-	@Override
-	public String marketCap(User user)
-	{
-		return "Hi all";
-	}
-
-	@Override
-	public Stock stockDetails(String symbol)
-	{
-		Stock s1 = null;
-
-		return s1;
-	}
 
 	@Override
 	public String saveStock(Stock stock)
@@ -120,6 +105,8 @@ public class StockRepositoryImpl implements StockRepository
 			preparedStatement.setInt(1, LoginController.user.getUserId());
 			preparedStatement.setString(2, stock.getSymbol());
 			preparedStatement.setString(3, stock.getTime());
+			
+			System.out.println(preparedStatement.toString());
 			
 			int res = preparedStatement.executeUpdate();
 

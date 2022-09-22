@@ -177,41 +177,18 @@ public class StockController
 		try
 		{
 			dataObject = (JSONArray) parse.parse(String.valueOf(informationString));
-			
-			//get current date
-			String m,date;
-			int d,y;
-			String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
-			         "Oct", "Nov", "Dec"};
-			
-			GregorianCalendar gcalendar = new GregorianCalendar();
-			d = gcalendar.get(Calendar.DATE);
-			m = months[gcalendar.get(Calendar.MONTH)];
-			y = gcalendar.get(Calendar.YEAR);
-			date = Integer.toString(d) + " " + m + " " + Integer.toString(y);
-			
-			//get current time
-			int h,min,sec;
-			String time;
-			h = gcalendar.get(Calendar.HOUR);
-			min = gcalendar.get(Calendar.MINUTE);
-			sec = gcalendar.get(Calendar.SECOND);
-			time = Integer.toString(h) + ":" + Integer.toString(min) + ":" + Integer.toString(sec);
-			
+
 			for (int i = 0; i < dataObject.size(); i++)
 			{
 				JSONObject countryData = (JSONObject) dataObject.get(i);
 
-				Stock stock = new Stock(countryData.get("symbol").toString(), 
-						countryData.get("companyName").toString(),
+				Stock stock = new Stock(countryData.get("symbol").toString(), countryData.get("companyName").toString(),
 						Double.parseDouble(countryData.get("price").toString()),
 						Double.parseDouble(countryData.get("beta").toString()),
 						Double.parseDouble(countryData.get("marketCap").toString()),
 						Double.parseDouble(countryData.get("volume").toString()),
-						Boolean.parseBoolean(countryData.get("isActivelyTrading").toString()),
-						date,
-						time);
-				
+						Boolean.parseBoolean(countryData.get("isActivelyTrading").toString()), "", "");
+
 				al.add(stock);
 			}
 		}
@@ -282,29 +259,67 @@ public class StockController
 		String status = "no status";
 
 		for (int i = 0; i < topFive.size(); i++)
-			if (topFive.get(i).getSymbol().compareTo(str) == 0) status = stockService.saveStock(topFive.get(i));
+		{
+			if (topFive.get(i).getSymbol().compareTo(str) == 0)
+			{
+				// get current date
+				String m, date;
+				int d, y;
+				String months[] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
+						"Dec" };
+
+				GregorianCalendar gcalendar = new GregorianCalendar();
+				d = gcalendar.get(Calendar.DATE);
+				m = months[gcalendar.get(Calendar.MONTH)];
+				y = gcalendar.get(Calendar.YEAR);
+				date = Integer.toString(d) + " " + m + " " + Integer.toString(y);
+
+				// get current time
+				int h, min, sec;
+				String time;
+				h = gcalendar.get(Calendar.HOUR);
+				min = gcalendar.get(Calendar.MINUTE);
+				sec = gcalendar.get(Calendar.SECOND);
+				time = Integer.toString(h) + ":" + Integer.toString(min) + ":" + Integer.toString(sec);
+
+				topFive.get(i).setDate(date);
+				topFive.get(i).setTime(time);
+
+				status = stockService.saveStock(topFive.get(i));
+			}
+		}
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "show" })
-	public void show(ModelMap modelMap, @RequestParam(value = "show") String str) {
-		
+	public void show(ModelMap modelMap, @RequestParam(value = "show") String str)
+	{
+
 		ArrayList<Stock> show = stockService.getSaved();
 		modelMap.put("showall", show);
 	}
-	
+
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "unsave" })
-	public void unsave(ModelMap modelMap, @RequestParam(value = "unsave") String str) {
+	public void unsave(ModelMap modelMap, @RequestParam(value = "unsave") String str)
+	{
 		ArrayList<Stock> savedStocks = stockService.getSaved();
-		
+
+		System.out.println(str);
+
+		String[] arrOfStr = str.split(" ");
+
 		int index = 0;
-		for(int i=0;i<savedStocks.size();i++) {
-			if(savedStocks.get(i).getSymbol().equals(str)) {
+		for (int i = 0; i < savedStocks.size(); i++)
+		{
+			if (savedStocks.get(i).getSymbol().equals(arrOfStr[0]))
+			{
 				index = i;
+
+				savedStocks.get(index).setTime(arrOfStr[1]);
+
+				Stock stockToUnsave = savedStocks.get(index);
+				stockService.unsaveStock(stockToUnsave);
 				break;
 			}
 		}
-		
-		Stock stockToUnsave = savedStocks.get(index);
-		stockService.unsaveStock(stockToUnsave);
 	}
 }

@@ -1,8 +1,5 @@
 package com.citi.marketcap.dto;
 
-import java.sql.Date;
-import java.sql.Time;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
