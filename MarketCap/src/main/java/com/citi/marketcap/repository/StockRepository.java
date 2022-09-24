@@ -6,9 +6,9 @@ import com.citi.marketcap.dto.Stock;
 
 public interface StockRepository
 {
-	public String saveStock(Stock stock);
+	public String saveStock(String str, int numberOnly);
 	
 	public ArrayList<Stock> getSaved();
 	
-	public void unsaveStock(Stock stock);
+	public void unsaveStock(ArrayList<Stock> savedStocks,String stock);;
 }

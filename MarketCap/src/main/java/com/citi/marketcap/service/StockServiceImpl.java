@@ -17,9 +17,9 @@ public class StockServiceImpl implements StockService
 	private StockRepository stockRepository;
 
 	@Override
-	public String saveStock(Stock stock)
+	public String saveStock(String str, int numberOnly)
 	{
-		return stockRepository.saveStock(stock);
+		return stockRepository.saveStock(str, numberOnly);
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class StockServiceImpl implements StockService
 	}
 
 	@Override
-	public void unsaveStock(Stock stock) {
-		stockRepository.unsaveStock(stock);
+	public void unsaveStock(ArrayList<Stock> savedStocks,String stock) {
+		stockRepository.unsaveStock(savedStocks, stock);
 	}
 }

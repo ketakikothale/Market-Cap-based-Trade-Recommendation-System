@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan("com.citi.marketcap")
+//@ComponentScan("com.citi.marketcap")
 public class MarketCapApplication
 {
 	public static void main(String[] args)
