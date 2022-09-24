@@ -4,6 +4,7 @@ import java.util.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.citi.marketcap.dto.Stock;
-import com.citi.marketcap.dto.StockComparator;
+import com.citi.marketcap.dto.Stock1;
+import com.citi.marketcap.dto.Stock2;
 import com.citi.marketcap.service.StockService;
 
 @Controller
@@ -27,7 +29,8 @@ public class StockController
 {
 
 	ArrayList<Stock> topFive = new ArrayList<>();
-
+	ArrayList<Stock1> stockSymbolsAL = new ArrayList<>();
+	
 	@Autowired
 	StockService stockService;
 
@@ -40,12 +43,6 @@ public class StockController
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "type" })
 	public void display(ModelMap modelMap, @RequestParam(value = "type") String str)
 	{
-		// list to store stock to recommend
-		ArrayList<Stock> al = new ArrayList<>();
-		ArrayList<Stock> sort1 = new ArrayList<>();
-		ArrayList<Stock> sort2 = new ArrayList<>();
-		ArrayList<String> tickerList = new ArrayList<>();
-
 		String APIkey = "6d9bce770b5f2123cc374e05f79ec341";// "f6baf1e3ee826845e485e907450fddbe";
 		StringBuilder informationString = new StringBuilder();
 
@@ -127,7 +124,7 @@ public class StockController
 			}
 		}
 
-		else if (str.compareTo("large") == 0)
+		else if (str.compareTo("large") == 0) 
 		{
 			try
 			{
@@ -167,11 +164,10 @@ public class StockController
 			}
 		}
 		modelMap.clear();
-
-		al.clear();
-		tickerList.clear();
+		stockSymbolsAL.clear();
 		topFive.clear();
-
+		
+		StringBuilder stockSymbolsSB = new StringBuilder();
 		JSONParser parse = new JSONParser();
 		JSONArray dataObject;
 		try
@@ -181,76 +177,241 @@ public class StockController
 			for (int i = 0; i < dataObject.size(); i++)
 			{
 				JSONObject countryData = (JSONObject) dataObject.get(i);
-
-				Stock stock = new Stock(countryData.get("symbol").toString(), countryData.get("companyName").toString(),
+				
+				stockSymbolsSB.append(countryData.get("symbol").toString());
+				if(i!=dataObject.size()-1)
+					stockSymbolsSB.append(",");
+				
+				Stock1 s1 = new Stock1(countryData.get("symbol").toString(),
 						Double.parseDouble(countryData.get("price").toString()),
 						Double.parseDouble(countryData.get("beta").toString()),
 						Double.parseDouble(countryData.get("marketCap").toString()),
-						Double.parseDouble(countryData.get("volume").toString()),
-						Boolean.parseBoolean(countryData.get("isActivelyTrading").toString()), "", "");
-
-				al.add(stock);
+						Double.parseDouble(countryData.get("volume").toString()));
+				
+				stockSymbolsAL.add(s1);
 			}
 		}
 		catch (ParseException e)
 		{
 			e.printStackTrace();
 		}
-
-		// sort al in descending order of volume
-		Collections.sort(al, new StockComparator());
-
-		// get stocks which are actively trading
-		for (int i = 0; i < al.size(); i++)
+		
+		StringBuffer temp=new StringBuffer();
+		try
 		{
-			if (al.get(i).isActivelyTrading())
-			{
-				sort1.add(al.get(i));
-			}
-		}
+			URL marketCap=new URL("https://query1.finance.yahoo.com/v7/finance/quote?symbols="+stockSymbolsSB.toString());
 
-		// get stocks with beta value approx equal to 1.0
-		for (int i = 0; i < sort1.size(); i++)
-		{
-			if ((sort1.get(i).getBeta() >= 0.9) && (sort1.get(i).getBeta() <= 1.1))
-			{
-				sort2.add(al.get(i));
-			}
-		}
+			HttpURLConnection conn = (HttpURLConnection) marketCap.openConnection();
+			conn.setRequestMethod("GET");
+			conn.connect();
 
-		if (sort2.size() >= 5)
-		{
-			// recommend top five stocks only
-			for (int i = 0; i < 5; i++)
-			{
-				topFive.add(sort2.get(i));
-			}
-		}
-		else
-		{
-			// that means less than 5 stocks are available
+			// Check if connect is made
+			int responseCode = conn.getResponseCode();
 
-			if (sort1.size() >= 5)
+			// 200 OK
+			if (responseCode != 200)
 			{
-				// exclude beta value parameter
-				for (int i = 0; i < 5; i++)
-				{
-					topFive.add(sort1.get(i));
-				}
+				throw new RuntimeException("HttpResponseCode: " + responseCode);
 			}
 			else
 			{
-				// exclude actively trading parameter
-				for (int i = 0; i < 5; i++)
+				Scanner scanner = new Scanner(marketCap.openStream());
+
+				while (scanner.hasNext())
 				{
-					topFive.add(al.get(i));
+					temp.append(scanner.nextLine());
 				}
+				// Close the scanner
+				scanner.close();
 			}
 		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		ArrayList<Stock2> yahooStocksAL = new ArrayList<Stock2>();
+		
+		JSONParser parser = new JSONParser();
+        JSONObject json=null;
+        JSONObject json1=null;
+        JSONArray dataObject1;
+		
+		try
+		{
+			json = (JSONObject) parser.parse(temp.toString());
+            String s1=json.get("quoteResponse").toString();
+            
+            json1 = (JSONObject) parser.parse(s1);
+            String s2=json1.get("result").toString();
+            
+            dataObject1 = (JSONArray) parser.parse(s2);
 
+            for (int i = 0; i < dataObject1.size(); i++)
+            {
+                JSONObject countryData = (JSONObject) dataObject1.get(i);
+                
+                double changePercent = 0;
+                String rating = "null";
+                double pe = 0;
+                try {
+                	changePercent = Double.parseDouble(countryData.get("twoHundredDayAverageChangePercent").toString());
+                	rating = countryData.get("averageAnalystRating").toString();
+                	pe = Double.parseDouble(countryData.get("trailingPE").toString());
+                }
+                catch(Exception e) {
+                	
+                }
+                
+                
+                Stock2 stock2 = new Stock2(countryData.get("symbol").toString(),
+                		rating, changePercent, pe);
+				
+                yahooStocksAL.add(stock2);
+            }
+		}
+		catch (ParseException e)
+		{
+			e.printStackTrace();
+		}
+		
+		HashMap<String,Stock2> hmp = new HashMap<>();
+		
+		for(int i=0;i<stockSymbolsAL.size();i++) {
+			hmp.put(stockSymbolsAL.get(i).getSymbol(), new Stock2());
+		}
+		
+		for(int i=0;i<yahooStocksAL.size();i++) {
+			if(hmp.containsKey(yahooStocksAL.get(i).getSymbol())) {
+				hmp.put(yahooStocksAL.get(i).getSymbol(), yahooStocksAL.get(i));
+			}
+		}
+		
+		topFive = stockRecommendation(hmp);
+		
 		modelMap.put("response", topFive);
 	}
 
+	public ArrayList<Stock> stockRecommendation(HashMap<String,Stock2> hmp) {
+		ArrayList<Stock> topPerformance = new ArrayList<Stock>();
+		ArrayList<Stock> topRating = new ArrayList<Stock>();
+		ArrayList<Stock> topFiveFinal = new ArrayList<Stock>();
+		
+		//convert HashMap into List   
+		List<Entry<String, Stock2>> list = new LinkedList<Entry<String, Stock2>>(hmp.entrySet());
+		
+		sortHashMap(list); //sort hmp based on - twoHundredDayAverageChangePercent
+		
+		Map<String, Stock2> sortedMap = new LinkedHashMap<String, Stock2>();  
+		for (Entry<String, Stock2> entry : list)   
+		{  
+			sortedMap.put(entry.getKey(), entry.getValue());  
+		}  
+		
+		for (Entry<String, Stock2> entry : sortedMap.entrySet())   
+		{
+			String n = "";
+			double mc = 0.0;
+			double beta = 0.0;
+			double vol = 0.0;
+			double p = 0.0;
+			
+			for(int i=0;i<stockSymbolsAL.size();i++) {
+				if(stockSymbolsAL.get(i).getSymbol().compareTo(entry.getKey()) == 0) {
+					mc = stockSymbolsAL.get(i).getMarketCap();
+					beta = stockSymbolsAL.get(i).getBeta();
+					vol = stockSymbolsAL.get(i).getVolume(); 
+					p = stockSymbolsAL.get(i).getPrice();
+					break;
+				}
+			}
+			
+			Stock s = new Stock(
+					entry.getKey().toString(),
+					p,
+					beta,
+					mc,
+					vol,
+					entry.getValue().getAverageAnalystRating(),
+					entry.getValue().getTwoHundredDayAverageChangePercent(),
+					entry.getValue().getTrailingPE(),
+					"",""
+					);
+			
+			topPerformance.add(s);
+		}  
+	
+		//check for the average analyst rating
+		int count = 0;
+		if(topPerformance.size() > 5) {
+			for(int i=0;i<topPerformance.size();i++) {
+				if((topPerformance.get(i).getAverageAnalystRating() != null)) {
+					if(topPerformance.get(i).getAverageAnalystRating().contains("Buy")) {
+						topRating.add(topPerformance.get(i));
+						count++;
+					}
+				}	
+			}
+		}
+		
+		int countNew = 0;
+		if(topRating.size() > 5) {
+			for(int i=0;i<topRating.size();i++) {
+				if((topRating.get(i).getTrailingPE() >= 15) && (topRating.get(i).getTrailingPE() <=20)) {
+					topFiveFinal.add(topRating.get(i));
+					countNew++;
+				}	
+			}
+		}
+		
+		ArrayList<Stock> ans = new ArrayList<Stock>();
+		if(topFiveFinal.size() >= 5) {
+			ans.add(topFiveFinal.get(0));
+			ans.add(topFiveFinal.get(1));
+			ans.add(topFiveFinal.get(2));
+			ans.add(topFiveFinal.get(3));
+			ans.add(topFiveFinal.get(4));
+			return ans;
+		}
+		else if(topRating.size() >= 5) {
+			ans.add(topRating.get(0));
+			ans.add(topRating.get(1));
+			ans.add(topRating.get(2));
+			ans.add(topRating.get(3));
+			ans.add(topRating.get(4));
+			return ans;
+		}
+		else {
+			ans.add(topPerformance.get(0));
+			ans.add(topPerformance.get(1));
+			ans.add(topPerformance.get(2));
+			ans.add(topPerformance.get(3));
+			ans.add(topPerformance.get(4));
+			return ans;
+		}
+	}
+	
+	public List<Entry<String, Stock2>> sortHashMap(List<Entry<String, Stock2>> list) {
+		//sorting the list elements  
+		Collections.sort(list, new Comparator<Entry<String, Stock2>>() {  
+			@Override
+			public int compare(Entry<String, Stock2> o1, Entry<String, Stock2> o2) {
+				//sort in descending order 
+				if(o1.getValue().getTwoHundredDayAverageChangePercent() == o2.getValue().getTwoHundredDayAverageChangePercent()) {
+					return 0;
+				}
+				else if(o1.getValue().getTwoHundredDayAverageChangePercent() > o2.getValue().getTwoHundredDayAverageChangePercent()) {
+					return -1;
+				}
+				else {
+					return 1;
+				}
+			}
+		});
+		
+		return list;
+	}
+	
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "ticker" })
 	public void save(ModelMap modelMap, @RequestParam(value = "ticker") String str)
 	{
@@ -293,7 +454,6 @@ public class StockController
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "show" })
 	public void show(ModelMap modelMap, @RequestParam(value = "show") String str)
 	{
-
 		ArrayList<Stock> show = stockService.getSaved();
 		modelMap.put("showall", show);
 	}
@@ -302,8 +462,6 @@ public class StockController
 	public void unsave(ModelMap modelMap, @RequestParam(value = "unsave") String str)
 	{
 		ArrayList<Stock> savedStocks = stockService.getSaved();
-
-		System.out.println(str);
 
 		String[] arrOfStr = str.split(" ");
 

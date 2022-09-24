@@ -106,7 +106,7 @@ public class StockRepositoryImpl implements StockRepository
 			preparedStatement.setString(2, stock.getSymbol());
 			preparedStatement.setString(3, stock.getTime());
 			
-			System.out.println(preparedStatement.toString());
+//			System.out.println(preparedStatement.toString());
 			
 			int res = preparedStatement.executeUpdate();
 

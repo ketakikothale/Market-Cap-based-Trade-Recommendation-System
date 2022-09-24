@@ -8,20 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 
-public class Stock {
+public class Stock1
+{
 	String symbol;
 	double price;
 	double beta;
 	double marketCap;
 	double volume;
-	String averageAnalystRating;
-	double twoHundredDayAverageChangePercent;
-	double trailingPE;
-	String date;
-	String time;
-	
-	public String toString() {
-		
-		return symbol;
-	}
 }

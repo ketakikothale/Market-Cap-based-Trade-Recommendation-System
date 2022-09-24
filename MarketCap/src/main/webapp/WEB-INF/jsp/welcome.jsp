@@ -74,9 +74,7 @@
 				<tr style="padding:15px">
 					<th style="padding:15px">Sr.No.</th>
 					<th style="padding:15px">Symbol</th>
-					<th style="padding:15px">Name</th>
 					<th style="padding:15px">Price</th>
-					<th style="padding:15px">Beta</th>
 					<th style="padding:15px">Market Cap</th>
 					<th style="padding:15px">Save</th>
 				</tr>
@@ -85,11 +83,9 @@
 				<tr style="padding:15px">
 					<td style="padding:15px">${theCount.count}</td>
 					<td style="padding:15px">${stk.symbol}</td>
-					<td style="padding:15px">${stk.name}</td>
 					<td style="padding:15px">${stk.price}</td>
-					<td style="padding:15px">${stk.beta}</td>
 					<td style="padding:15px">${stk.marketCap}</td>
-					<td><button name="ticker" value=${stk.symbol} onclick="save()">Save ${stk.name}</button></td>
+					<td><button name="ticker" value=${stk.symbol} onclick="save()">Save Stock</button></td>
 
 				<tr>
 			</c:forEach>
