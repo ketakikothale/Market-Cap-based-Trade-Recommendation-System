@@ -4,9 +4,9 @@
 <title>Select Market Cap</title>
 <link href = "css/bootstrap.css" rel = "stylesheet" type = "text/css">
 </head>
-<body style="background-color:#d3d3d3;">
+<body style="background-image:url('Stock Background.jpg'); background-size: cover; background-repeat: no-repeat">
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0000a3;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #050A30;">
     
     <a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
 			        <h5 class="card-title text-center">Small Cap</h5>
 			        <p class="card-text">Companies with a market cap (capitalization) or market value $2 billion or less.</p>
 			        <div class="col-md-12 text-center">
-			        <button name="type" value="small" class="btn btn-primary" style="background-color: #0000ff;">Top 5 Stocks</button>
+			        <button name="type" value="small" class="btn btn-primary" style="background-color: #000C66;">Top 5 Stocks</button>
 			        </div>
 			      </div>
 			    </div>
@@ -47,7 +47,7 @@
 			        <h5 class="card-title text-center">Mid Cap</h5>
 			        <p class="card-text">Companies with a market cap (capitalization) or market value between $2 and $10 billion.</p>
 			        <div class="col-md-12 text-center">
-			        <button name="type" value="mid" class="btn btn-primary" style="background-color: #0000ff;">Top 5 Stocks</button></div>
+			        <button name="type" value="mid" class="btn btn-primary" style="background-color: #000C66;">Top 5 Stocks</button></div>
 			      </div>
 			    </div>
 			  </div>
@@ -57,7 +57,7 @@
 			        <h5 class="card-title text-center">Large Cap</h5>
 			        <p class="card-text">Companies with a market cap (capitalization) or market value $10 billion or more.</p>
 			        <div class="col-md-12 text-center">
-			        <button name="type" value="large" class="btn btn-primary" style="background-color: #0000ff;">Top 5 Stocks</button></div>
+			        <button name="type" value="large" class="btn btn-primary" style="background-color: #000C66;">Top 5 Stocks</button></div>
 			      </div>
 			    </div>
 			  </div>
@@ -68,7 +68,7 @@
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
 			<c:forEach var="stk" items="${response}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
-				<h2 style="color:black; text-align:center">Recommended Stocks:</h2>
+				<h2 style="color:white; text-align:center">Recommended Stocks:</h2>
 				
  				<thead >
 				<tr style="padding:15px">
@@ -78,7 +78,7 @@
 					<th style="padding:15px">Price</th>
 					<th style="padding:15px">Beta</th>
 					<th style="padding:15px">Market Cap</th>
-					<th style="padding:15px" name="quantity">Quantity</th>
+					<th style="padding:15px">Quantity</th>
 					<th style="padding:15px">Save</th>
 				</tr>
 			</thead>
@@ -101,7 +101,7 @@
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
 			<c:forEach var="stk" items="${showall}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
-				<h2 style="color:black; text-align:center">Saved Stocks:<h2>
+				<h2 style="color:white; text-align:center">Saved Stocks:<h2>
 				<thead>
 					<tr style="padding:15px">
 						<th style="padding:15px">Sr.No.</th>
