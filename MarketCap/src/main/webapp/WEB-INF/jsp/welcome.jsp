@@ -4,9 +4,9 @@
 <title>Select Market Cap</title>
 <link href = "css/bootstrap.css" rel = "stylesheet" type = "text/css">
 </head>
-<body style="background-image:url('Stock Background.jpg');">
+<body style="background-color:#d3d3d3;">
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #474a5e;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0000a3;">
     
     <a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,7 @@
         <!-- <a class="nav-item nav-link float-right" name="show" value="show" href="# style="color:white">My saved stocks</a> -->
         <form method ="post">
         <div class="col-md-12 text-center">
-        <button class="nav-item nav-link active pull-right" name="show" value="show" style="color:white; margin-left:10px; background-color: #474a5e; border-color: #474a5e; ">My saved Stocks</button></form>
+        <button class="nav-item nav-link active pull-right" name="show" value="show" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">My saved Stocks</button></form>
       	</div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 			        <h5 class="card-title text-center">Small Cap</h5>
 			        <p class="card-text">Companies with a market cap (capitalization) or market value $2 billion or less.</p>
 			        <div class="col-md-12 text-center">
-			        <button name="type" value="small" class="btn btn-primary" style="background-color: #474a5e;">Top 5 Stocks</button>
+			        <button name="type" value="small" class="btn btn-primary" style="background-color: #0000ff;">Top 5 Stocks</button>
 			        </div>
 			      </div>
 			    </div>
@@ -47,7 +47,7 @@
 			        <h5 class="card-title text-center">Mid Cap</h5>
 			        <p class="card-text">Companies with a market cap (capitalization) or market value between $2 and $10 billion.</p>
 			        <div class="col-md-12 text-center">
-			        <button name="type" value="mid" class="btn btn-primary" style="background-color: #474a5e;">Top 5 Stocks</button></div>
+			        <button name="type" value="mid" class="btn btn-primary" style="background-color: #0000ff;">Top 5 Stocks</button></div>
 			      </div>
 			    </div>
 			  </div>
@@ -57,7 +57,7 @@
 			        <h5 class="card-title text-center">Large Cap</h5>
 			        <p class="card-text">Companies with a market cap (capitalization) or market value $10 billion or more.</p>
 			        <div class="col-md-12 text-center">
-			        <button name="type" value="large" class="btn btn-primary" style="background-color: #474a5e;">Top 5 Stocks</button></div>
+			        <button name="type" value="large" class="btn btn-primary" style="background-color: #0000ff;">Top 5 Stocks</button></div>
 			      </div>
 			    </div>
 			  </div>
@@ -68,7 +68,7 @@
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
 			<c:forEach var="stk" items="${response}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
-				<h2 style="color:white; text-align:center">Recommended Stocks:</h2>
+				<h2 style="color:black; text-align:center">Recommended Stocks:</h2>
 				
  				<thead >
 				<tr style="padding:15px">
@@ -78,6 +78,7 @@
 					<th style="padding:15px">Price</th>
 					<th style="padding:15px">Beta</th>
 					<th style="padding:15px">Market Cap</th>
+					<th style="padding:15px" name="quantity">Quantity</th>
 					<th style="padding:15px">Save</th>
 				</tr>
 			</thead>
@@ -89,7 +90,8 @@
 					<td style="padding:15px">${stk.price}</td>
 					<td style="padding:15px">${stk.beta}</td>
 					<td style="padding:15px">${stk.marketCap}</td>
-					<td><button name="ticker" value=${stk.symbol} onclick="save()">Save ${stk.name}</button></td>
+					<td style="padding:15px"><input type="number" value="1" min=1></td>
+					<td><button name="ticker" value=${stk.symbol} onclick="save()">Save</button></td>
 
 				<tr>
 			</c:forEach>
@@ -99,7 +101,7 @@
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
 			<c:forEach var="stk" items="${showall}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
-				<h2 style="color:white; text-align:center">Saved Stocks:<h2>
+				<h2 style="color:black; text-align:center">Saved Stocks:<h2>
 				<thead>
 					<tr style="padding:15px">
 						<th style="padding:15px">Sr.No.</th>
