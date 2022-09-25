@@ -6,23 +6,11 @@
 </head>
 <body style="background-image:url('Stock Background.jpg'); background-size: cover;">
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #050A30;">
-    
-    <a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <!-- <a class="nav-item nav-link float-right" name="show" value="show" href="# style="color:white">My saved stocks</a> -->
-        <form method ="post">
-        <div class="col-md-12 text-center">
-        	<button class="nav-item nav-link active pull-right" name="show" value="show" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">My saved Stocks</button>
-        	<button class="nav-item nav-link active pull-right" name="logout" value="logout" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">Logout</button></form>
-        </div>
-      </div>
-    </div>
-  </nav>
+<div class="navbar" style="background-color: #050A30; overflow: hidden;">
+<a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
+	<button class="nav-item nav-link active pull-right" name="show" value="show" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">My Saved Stocks</button>
+	<button class="nav-item nav-link active pull-right" name="logout" value="logout" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">Logout</button></form>
+</div>
 
 
 	<form method ="post">
