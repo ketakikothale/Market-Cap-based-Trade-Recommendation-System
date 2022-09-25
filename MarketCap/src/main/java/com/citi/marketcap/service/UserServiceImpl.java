@@ -18,4 +18,10 @@ public class UserServiceImpl implements UserService
 	{
 		return userRepository.loggedIn(user);
 	}
+
+	@Override
+	public void logOut(User user)
+	{
+		userRepository.logOut(user);
+	}
 }

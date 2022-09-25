@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.citi.marketcap.controller.LoginController;
 import com.citi.marketcap.dto.User;
 
 @Repository
@@ -55,5 +56,11 @@ public class UserRepositoryImpl implements UserRepository
 		}
 
 		return "fail";
+	}
+
+	@Override
+	public void logOut(User user)
+	{
+		LoginController.user = null;
 	}
 }

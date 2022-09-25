@@ -235,7 +235,6 @@ public class APIImpl implements API
 
 		for (Entry<String, Stock2> entry : sortedMap.entrySet())
 		{
-			String n = "";
 			double mc = 0.0;
 			double beta = 0.0;
 			double vol = 0.0;
@@ -261,7 +260,6 @@ public class APIImpl implements API
 		}
 
 		// check for the average analyst rating
-		int count = 0;
 		if (topPerformance.size() > 5)
 		{
 			for (int i = 0; i < topPerformance.size(); i++)
@@ -271,13 +269,11 @@ public class APIImpl implements API
 					if (topPerformance.get(i).getAverageAnalystRating().contains("Buy"))
 					{
 						topRating.add(topPerformance.get(i));
-						count++;
 					}
 				}
 			}
 		}
 
-		int countNew = 0;
 		if (topRating.size() > 5)
 		{
 			for (int i = 0; i < topRating.size(); i++)
@@ -285,7 +281,6 @@ public class APIImpl implements API
 				if ((topRating.get(i).getTrailingPE() >= 15) && (topRating.get(i).getTrailingPE() <= 20))
 				{
 					topFiveFinal.add(topRating.get(i));
-					countNew++;
 				}
 			}
 		}
