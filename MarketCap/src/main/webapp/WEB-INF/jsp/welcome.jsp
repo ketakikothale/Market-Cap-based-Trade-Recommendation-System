@@ -4,7 +4,7 @@
 <title>Select Market Cap</title>
 <link href = "css/bootstrap.css" rel = "stylesheet" type = "text/css">
 </head>
-<body style="background-image:url('Stock Background.jpg'); background-size: cover; background-repeat: no-repeat">
+<body style="background-image:url('Stock Background.jpg'); background-size: cover;">
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #050A30;">
     
@@ -56,7 +56,7 @@
 			    <div class="card">
 			      <div class="card-body">
 			        <h5 class="card-title text-center">Large Cap</h5>
-			        <p class="card-text">Companies with a market cap (capitalization) or market value $10 billion or more.</p>
+			        <p class="card-text">Companies with a market cap (capitalization) or market value $5 billion or more.</p>
 			        <div class="col-md-12 text-center">
 			        <button name="type" value="large" class="btn btn-primary" style="background-color: #000C66;">Top 5 Stocks</button></div>
 			      </div>
@@ -69,7 +69,7 @@
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
 			<c:forEach var="stk" items="${response}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
-				<h2 style="color:black; text-align:center">Recommended Stocks:</h2>
+				<h2 style="color:white; text-align:center">Recommended Stocks:</h2>
 				
  				<thead >
 				<tr style="padding:15px">
@@ -98,7 +98,7 @@
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
 			<c:forEach var="stk" items="${showall}" varStatus="theCount">
 			<c:if test="${theCount.count le 1}">
-				<h2 style="color:black; text-align:center">Saved Stocks:<h2>
+				<h2 style="color:white; text-align:center">Saved Stocks:<h2>
 				<thead>
 					<tr style="padding:15px">
 						<th style="padding:15px">Sr.No.</th>

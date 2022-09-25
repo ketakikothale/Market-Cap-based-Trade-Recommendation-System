@@ -19,6 +19,7 @@
 								<div class = "jumbotron">
 									<h1 class ="text-center">Login</h1>
 									<br>
+									
 									 <form method ="post">
 									 		<label class="control-lable" for="username">Username</label>
 											<input type="text" name="userName" class = "form-control" placeholder="User Name"/>
@@ -27,15 +28,14 @@
 											<input type="password" name="password" class = "form-control"  placeholder="Password"/>
 											<br><br>
 											<div class="col-md-12 text-center">
-												<button class = "btn btn-primary active" >Submit</button>
+												<button class = "btn btn-primary active" name="submit">Submit</button>
 											</div>
 											
 									</form>
+									<br>
+									<p style="color:red; text-align:center;">${error}</p>
 								</div>						
 						</div>
-						
-						
-				
 		</div>
 	</div>
 	<script type = "text/javascript "  src = "js/bootstrap.js"></script>

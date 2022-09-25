@@ -42,12 +42,12 @@ public class UserRepositoryImpl implements UserRepository
 				}
 				else
 				{
-					return "Fail:Password not match";
+					return "Incorrect Password!! Please try again";
 				}
 			}
 			else
 			{
-				return "Fail:User not found";
+				return "User not found!! Please enter correct UserId";
 			}
 		}
 		catch (SQLException e)

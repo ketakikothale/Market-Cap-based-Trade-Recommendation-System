@@ -155,7 +155,7 @@ public class StockRepositoryImpl implements StockRepository
 			{
 				s1 = savedStocks.get(i);
 
-				savedStocks.get(i).setTime(arrOfStr[1] + arrOfStr[2]);
+				savedStocks.get(i).setTime(arrOfStr[1] + " " + arrOfStr[2]);
 
 				try
 				{
