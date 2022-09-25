@@ -434,6 +434,8 @@ public class StockController
 	{
 		ArrayList<Stock> show = stockService.getSaved();
 		modelMap.put("showall", show);
+		if(show == null)
+			modelMap.put("notsaved", "You have not yet saved any stocks");
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "unsave" })
