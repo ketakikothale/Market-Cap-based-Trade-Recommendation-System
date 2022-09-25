@@ -6,11 +6,16 @@
 </head>
 <body style="background-image:url('Stock Background.jpg'); background-size: cover;">
 
+
 <div class="navbar" style="background-color: #050A30; overflow: hidden;">
+<form method="post">
 <a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
-	<button class="nav-item nav-link active pull-right" name="show" value="show" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">My Saved Stocks</button>
-	<button class="nav-item nav-link active pull-right" name="logout" value="logout" style="color:black; margin-left:10px; background-color: #d3d3d3; border-color: #474a5e; ">Logout</button></form>
+	<button class="nav-item nav-link active pull-right" name="logout" value="logout" style="color:black; float:right; background-color: #d3d3d3; border-color: #474a5e; ">Logout</button>
+	<button class="nav-item nav-link active pull-right" name="show" value="show" style="color:black; margin-right:30px; float:right; background-color: #d3d3d3; border-color: #474a5e; ">My Saved Stocks</button></form>
+	</form>
 </div>
+
+
 
 
 	<form method ="post">
