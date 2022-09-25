@@ -6,6 +6,7 @@
 </head>
 <body style="background-image:url('Stock Background.jpg'); background-size: cover;">
 
+
 <div class="navbar" style="background-color: #050A30; overflow: hidden;">
 <form method="post" style="width: 100%; margin-bottom:0px;">
 <a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
@@ -16,9 +17,8 @@
 
 
 
+
 	<form method ="post">
-		
-	<!-- 	<button name="show" value="show">Show</button> -->
 		
 		<br><br>
 			<div class="row">
@@ -58,7 +58,9 @@
 		
 		
 		<table border="1" align="center" style="background-color:white; border-radius:5px">
+		<h2 style="color:white; text-align:center">${notsaved}</h2>
 			<c:forEach var="stk" items="${response}" varStatus="theCount">
+			
 			<c:if test="${theCount.count le 1}">
 				<h2 style="color:white; text-align:center">Recommended Stocks:</h2>
 				
