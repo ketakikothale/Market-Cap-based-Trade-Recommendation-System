@@ -2,14 +2,20 @@
 <html>
 <head>
 <title>Select Market Cap</title>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link href = "css/bootstrap.css" rel = "stylesheet" type = "text/css">
 </head>
 <body style="background-image:url('Stock Background.jpg'); background-size: cover;">
 
-
+<%
+	response.setHeader("Cache-Control","no-cache");
+	response.setHeader("Cache-Control","no-store");
+	response.setHeader("Pragma","no-cache");
+	response.setDateHeader ("Expires", 0);
+%>
 <div class="navbar" style="background-color: #050A30; overflow: hidden;">
 <form method="post" style="width: 100%; margin-bottom:0px;">
-<a class="navbar-brand" href="#" style="color:white">Stock Trade Recommender</a>
+<a class="navbar-brand" href="#" style="color:white">Stock Recommender</a>
 	<button class="nav-item nav-link active pull-right" name="logout" value="logout" style="color:black; margin-left:5px; float: right; background-color: #d3d3d3; border-color: #474a5e; ">Logout</button>
 	<button class="nav-item nav-link active pull-right" name="show" value="show" style="color:black; float: right; background-color: #d3d3d3; border-color: #474a5e; ">My Saved Stocks</button>
 </form>
@@ -119,13 +125,21 @@
 	<script type = "text/javascript "  src = "js/jquery.js"></script>
 	<script>
 		function save() {
-			alert("Saved Successfully!!");
+			swal({
+				  title: "Saved Successfully!!",
+				  icon: "success",
+				  button: "OK"
+				});
 		}
 		
 		function remove() {
-			alert("Deleted Successfully!!");
+			swal({
+				  title: "Deleted Successfully!!",
+				  icon: "success",
+				  button: "OK"
+				});
 		}
-</script>
+	</script>
 	
 	</form>
 </body>
