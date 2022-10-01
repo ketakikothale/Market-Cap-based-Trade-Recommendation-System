@@ -13,12 +13,16 @@ import com.citi.marketcap.dto.Stock;
 import com.citi.marketcap.repository.APIImpl;
 import com.citi.marketcap.service.APIService;
 import com.citi.marketcap.service.StockService;
+import com.citi.marketcap.service.UserService;
 
 @Controller
 public class StockController
 {
 	@Autowired
 	StockService stockService;
+	
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	APIService apiService;
@@ -51,6 +55,8 @@ public class StockController
 	{
 		ArrayList<Stock> show = stockService.getSaved();
 		modelMap.put("showall", show);
+		if(show == null)
+			modelMap.put("notsaved", "You have not yet saved any stocks");
 	}
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "unsave" })
@@ -60,5 +66,12 @@ public class StockController
 		stockService.unsaveStock(savedStocks, str);
 		savedStocks = stockService.getSaved();
 		modelMap.put("showall", savedStocks);
+	}
+	
+	@RequestMapping(value = "/welcome", method = RequestMethod.POST, params = { "logout" })
+	public String logout(ModelMap modelMap, @RequestParam(value = "logout") String str)
+	{
+		userService.logOut(LoginController.user);
+		return "redirect:/login";
 	}
 }
